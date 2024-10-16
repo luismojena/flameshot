@@ -16,15 +16,16 @@
 //     along with Flameshot.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "ocrtool.h"
-#include "tesseract_tool.h"
 #include "src/utils/screenshotsaver.h"
+#include "tesseract_tool.h"
 #include <QPainter>
-#include <tesseract/basetesseractApi.h>
 #include <leptonica/allheaders.h>
+#include <tesseract/baseapi.h>
 
 OcrTool::OcrTool(QObject* parent)
   : AbstractActionTool(parent)
-{}
+{
+}
 
 bool OcrTool::closeOnButtonPressed() const
 {
@@ -58,17 +59,18 @@ CaptureTool* OcrTool::copy(QObject* parent)
 
 void OcrTool::pressed(const CaptureContext& context)
 {
-    char *outText;
+    char* outText;
 
-    tesseract::TessBaseAPI *tesseractApi = new tesseract::TessBaseAPI();
-    
+    tesseract::TessBaseAPI* tesseractApi = new tesseract::TessBaseAPI();
+
     // TODO: tesseract language configs?
     if (tesseractApi->Init(NULL, "eng")) {
         // TODO: error system notification?
         return;
     }
 
-    Pix *image = TesseractTool::qImagetoPIX(context.selectedScreenshotArea().toImage());
+    PIX* image =
+      TesseractTool::qImageToPIX(context.selectedScreenshotArea().toImage());
     tesseractApi->SetImage(image);
 
     outText = tesseractApi->GetUTF8Text();
@@ -80,5 +82,5 @@ void OcrTool::pressed(const CaptureContext& context)
 
     tesseractApi->End();
     delete tesseractApi;
-    delete [] outText;
+    delete[] outText;
 }

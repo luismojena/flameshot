@@ -1,10 +1,22 @@
 #pragma once
+#define _CRT_NONSTDC_NO_DEPRECATE
+/* #ifdef TESSERACT_VERSION // 3.03 API */
+/* #include <tesseract/renderer.h> */
+/* #endif // TESSERACT_VERSION */
+/* #if (TESSERACT_MAJOR_VERSION < 5) */
+/* #include <tesseract/strngs.h> */
+/* #endif */
 
 #include <QPainter>
 #include <leptonica/allheaders.h>
 #include <tesseract/baseapi.h>
 
-// Thanks to Stackoverflow user "user898678": https://stackoverflow.com/a/10019508
+#if (LIBLEPT_MAJOR_VERSION > 1) || (LIBLEPT_MINOR_VERSION > 82)
+#include <leptonica/pix_internal.h>
+#endif
+
+// Thanks to Stackoverflow user "user898678":
+// https://stackoverflow.com/a/10019508
 // https://github.com/zdenop/qt-box-editor/blob/master/src/TessTools.cpp
 // LICENSE: https://github.com/zdenop/qt-box-editor/blob/master/LICENSE
 // modified version
